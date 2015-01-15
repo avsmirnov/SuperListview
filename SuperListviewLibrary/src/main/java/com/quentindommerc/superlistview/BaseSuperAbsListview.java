@@ -3,6 +3,8 @@ package com.quentindommerc.superlistview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -28,7 +30,6 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
     protected ViewStub    mEmpty;
 
     protected float   mDividerHeight;
-    protected int     mDivider;
     protected boolean mClipToPadding;
     protected int     mPadding;
     protected int     mPaddingTop;
@@ -38,6 +39,7 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
     protected int     mScrollbarStyle;
     protected int     mEmptyId;
     protected int     mMoreProgressId;
+    protected ColorDrawable     mDivider;
 
     protected AbsListView.OnScrollListener mOnScrollListener;
 
@@ -78,7 +80,7 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.superlistview);
         try {
             mClipToPadding = a.getBoolean(R.styleable.superlistview_superlv__listClipToPadding, false);
-            mDivider = a.getColor(R.styleable.superlistview_superlv__listDivider, 0);
+            mDivider = new ColorDrawable(a.getColor(R.styleable.superlistview_superlv__listDivider, 0));
             mDividerHeight = a.getDimension(R.styleable.superlistview_superlv__listDividerHeight, 0.0f);
             mPadding = (int) a.getDimension(R.styleable.superlistview_superlv__listPadding, -1.0f);
             mPaddingTop = (int) a.getDimension(R.styleable.superlistview_superlv__listPaddingTop, 0.0f);
@@ -210,7 +212,12 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
      * @param col4
      */
     public void setRefreshingColor(int col1, int col2, int col3, int col4) {
-        mPtrLayout.setColorScheme(col1, col2, col3, col4);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            mPtrLayout.setColorSchemeResources(col1, col2, col3);
+        } else {
+            mPtrLayout.setColorScheme(col1, col2, col3, col4);
+        }
+
     }
 
     /**

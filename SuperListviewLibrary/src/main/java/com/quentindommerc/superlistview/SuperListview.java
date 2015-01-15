@@ -2,12 +2,12 @@ package com.quentindommerc.superlistview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
 import com.quentindommerc.superlistview.superlistview.R;
 
 
@@ -50,15 +50,11 @@ public class SuperListview extends BaseSuperAbsListview {
 
         View listView = v.findViewById(android.R.id.list);
 
-        if (listView instanceof ListView)
-            mList = (ListView) listView;
-        else
-            throw new IllegalArgumentException("SuperListView works with a List!");
+        if (listView instanceof ListView) mList = (ListView) listView;
+        else throw new IllegalArgumentException("SuperListView works with a List!");
 
 
         if (mList!=null) {
-
-
             mList.setClipToPadding(mClipToPadding);
 
             getList().setDivider(mDivider);
@@ -68,14 +64,10 @@ public class SuperListview extends BaseSuperAbsListview {
             if (mSelector != 0)
                 mList.setSelector(mSelector);
 
-            if (mPadding != -1.0f) {
-                mList.setPadding(mPadding, mPadding, mPadding, mPadding);
-            } else {
-                mList.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
-            }
+            if (mPadding != -1.0f) mList.setPadding(mPadding, mPadding, mPadding, mPadding);
+            else mList.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
 
-            if (mScrollbarStyle != -1)
-                mList.setScrollBarStyle(mScrollbarStyle);
+            if (mScrollbarStyle != -1) mList.setScrollBarStyle(mScrollbarStyle);
         }
     }
 
