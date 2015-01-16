@@ -106,9 +106,8 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
         mPtrLayout.setEnabled(false);
 
         mProgress = (ViewStub) v.findViewById(android.R.id.progress);
-
         mProgress.setLayoutResource(mProgressId);
-        mProgress.inflate();
+        if (mProgressId != 0) mProgress.inflate();
 
         mMoreProgress = (ViewStub) v.findViewById(R.id.more_progress);
         mMoreProgress.setLayoutResource(mMoreProgressId);
@@ -137,7 +136,7 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
      * @param adapter
      */
     public void setAdapter(ListAdapter adapter) {
-        mProgress.setVisibility(View.GONE);
+        hideProgress();
         if (mEmpty != null && mEmptyId != 0) mList.setEmptyView(mEmpty);
 
         mList.setVisibility(View.VISIBLE);
@@ -148,7 +147,7 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
                 public void onChanged() {
                     super.onChanged();
 
-                    mProgress.setVisibility(View.GONE);
+                    hideProgress();
                     isLoadingMore = false;
                     mPtrLayout.setRefreshing(false);
 
@@ -176,10 +175,11 @@ public abstract class BaseSuperAbsListview extends FrameLayout implements AbsLis
     public void showProgress() {
         hideList();
         if (mEmptyId != 0) mEmpty.setVisibility(View.INVISIBLE);
-        mProgress.setVisibility(View.VISIBLE);
+        if (mProgressId != 0) mProgress.setVisibility(View.VISIBLE);
     }
 
     public void setIsLoading() {
+        mPtrLayout.setRefreshing(true);
         if (mEmptyId != 0) mEmpty.setVisibility(View.INVISIBLE);
     }
 
